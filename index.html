@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		.slider {
+			width:55%;
+		}
+	</style>
+</head>
+<body style="margin:0px">
+<div class="slidecontainer">
+  <input type="range" min="1" max="100" step="1" value="1" class="slider" id="myRange">
+</div>
+<p id ="slider"></p>
+<canvas id="myCanvas" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script>
+	
+	var canvas = document.getElementById("myCanvas");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	var ctx = canvas.getContext("2d");
+	
+	var x = 300;
+	var y = 500;
+	var vx = 2;
+	var vy = 3;
+	var set = 0;
+	var lastValue = 0;
+	
+		
+	function animate(value) {
+		ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+		lastValue = value;
+		ctx.beginPath();
+		ctx.arc(x, y, 10, 0, 2 * Math.PI);
+		ctx.stroke();
+		ctx.fillStyle = "yellow";
+		ctx.fill();	
+		
+		ctx.beginPath();								// upper limit line of projectile 
+		ctx.moveTo(300, 500);
+		ctx.lineTo(500, 500);
+		ctx.stroke();
+		
+		ctx.beginPath();								// lower limit line of projectile
+		ctx.moveTo(300, 422);		
+		ctx.lineTo(500, 422);
+		ctx.stroke();
+
+	}
+	
+	var slider = document.getElementById('myRange');
+	slider.addEventListener('input', function() {
+		document.getElementById("slider").innerHTML = slider.value;
+		x += vx*(slider.value - lastValue);
+		if(lastValue < slider.value) {
+			y = y - (slider.value - lastValue)*vy + 0.06*(slider.value - lastValue -1);
+			vy = vy - 0.06*(slider.value - lastValue);
+		}
+		else {
+			y = y + (lastValue-slider.value)*vy + 0.06*(lastValue-slider.value -1);
+			vy = vy + 0.06*(lastValue-slider.value);
+		}
+		if(slider.value == 1 || slider.value == 100) {			// to remove bugs
+			y = 500
+		}
+		else if (slider.value == 50) {							// to remove bugs
+			y = 420;
+		}
+		animate(slider.value);
+	});
+</script>
+
+</body>
+</html>
+
