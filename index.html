@@ -27,7 +27,6 @@ Your browser does not support the canvas element.
 	var y = 500;
 	var vx = 2;
 	var vy = 3;
-	var set = 0;
 	var lastValue = 0;
 	
 		
@@ -67,7 +66,7 @@ Your browser does not support the canvas element.
 		if(slider.value == 1 || slider.value == 100) {			// to remove bugs
 			y = 500
 		}
-		else if (slider.value == 50) {							// to remove bugs
+		else if (y < 420) {							// to remove bugs
 			y = 420;
 		}
 		animate(slider.value);
